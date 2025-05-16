@@ -24,7 +24,6 @@ class PortfolioBacktester:
         sharpe = (self.daily_returns.mean() * 252 - risk_free_rate) / volatility
         max_dd = (self.equity_curve / self.equity_curve.cummax() - 1).min()
 
-        # Assuming CVaR (95%) is computed elsewhere and attached as attribute cvar_95
         cvar_95 = getattr(self, 'cvar_95', None)
 
         summary_dict = {
@@ -39,3 +38,7 @@ class PortfolioBacktester:
 
 
         return summary_dict
+
+    def with_cvar(self, cvar_95):
+        self.cvar_95 = cvar_95
+        return self

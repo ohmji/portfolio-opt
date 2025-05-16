@@ -7,16 +7,65 @@ from portfolio_backtester import PortfolioBacktester
 from portfolio_plotter import PortfolioPlotter
 
 
+def construct_efficient_frontier(returns, tickers, num_points=100):
+    mus = (returns.mean() * 252).values
+    cov = returns.cov().values * 252
+    target_returns = np.linspace(mus.min(), mus.max(), num_points)
+
+    ef_returns, ef_vols = [], []
+    for target in target_returns:
+        w = cp.Variable(len(tickers))
+        risk = cp.quad_form(w, cov)
+        constraints = [
+            cp.sum(w) == 1,
+            w >= 0,
+            mus @ w >= target
+        ]
+        try:
+            prob = cp.Problem(cp.Minimize(risk), constraints)
+            prob.solve()
+            if w.value is None:
+                raise ValueError("Infeasible solution")
+            ef_returns.append(target)
+            ef_vols.append(np.sqrt(risk.value))
+        except Exception as e:
+            print(f"⚠️ Optimization failed at target return {target:.4f}: {e}")
+            continue
+    return ef_returns, ef_vols
+
+
+def run_backtest(returns, weights, cvar_95=None):
+    bt = PortfolioBacktester(returns, weights)
+    if cvar_95 is not None:
+        bt = bt.with_cvar(cvar_95)
+    bt = bt.run()
+
+    print("\n📊 Backtest Summary:")
+    summary = bt.summary()
+    print(f"Total Return: {summary['Total Return']:.2%}")
+    print(f"CAGR: {summary['CAGR']:.2%}")
+    print(f"Volatility: {summary['Volatility']:.2f}")
+    print(f"Sharpe Ratio: {summary['Sharpe Ratio']:.2f}")
+    print(f"Max Drawdown: {summary['Max Drawdown']:.2f}")
+    if 'CVaR (95%)' in summary:
+        print(f"CVaR (95%): {summary['CVaR (95%)']:.2%}")
+
+    equity_curve = bt.equity_curve
+    PortfolioPlotter.plot_equity_curve(equity_curve)
+
+
 if __name__ == "__main__":
     # Load historical price data for selected tickers
-    tickers = ['BRK-B', 'META','UNH','JD','GOOGL','HCA','BABA']
+    
+    # tickers = ['BRK-B', 'META','UNH','JD','GOOGL','HCA','BABA']
+    tickers = ['AAPL', 'MSFT', 'AMZN', 'META', 'GOOGL', 'NVDA', 'TSLA']
 
     # Load historical price data for selected tickers
     price = vbt.YFData.download(tickers, start='2015-01-01').get('Close')
     price = price.dropna(how='any')  # Drop all rows with any NaN values to align symbols properly
 
     # Calculate daily log returns
-    returns = price.pct_change(fill_method=None).dropna()
+    returns = price.pct_change(fill_method=None).dropna(how='any')
 
     # Number of simulated portfolios
     n_ports = 10_000
@@ -39,28 +88,7 @@ if __name__ == "__main__":
     port_df.to_csv("monte_carlo_portfolios.csv", index=False)
 
     # Construct Efficient Frontier using cvxpy
-    mus = (returns.mean() * 252).values  # convert to numpy array for cvxpy compatibility
-    cov = returns.cov().values * 252
-    target_returns = np.linspace(mus.min(), mus.max(), 100)
-
-    ef_returns, ef_vols = [], []
-
-    for target in target_returns:
-        w = cp.Variable(len(tickers))
-        risk = cp.quad_form(w, cov)
-        constraints = [
-            cp.sum(w) == 1,
-            w >= 0,
-            mus @ w >= target
-        ]
-        prob = cp.Problem(cp.Minimize(risk), constraints)
-        prob.solve()
-
-        if w.value is None:
-            print(f"⚠️ Optimization failed at target return {target:.4f}")
-            continue
-        ef_returns.append(target)
-        ef_vols.append(np.sqrt(risk.value))
+    ef_returns, ef_vols = construct_efficient_frontier(returns, tickers)
         
     # Find max Sharpe portfolio
     max_sharpe_idx = np.argmax(sharpe_ratios)
@@ -118,21 +146,7 @@ if __name__ == "__main__":
     for t, w in zip(tickers, opt_weights):
         print(f"{t}: {w:.2%}")
 
-    def run_backtest(returns, weights):
-        bt = PortfolioBacktester(returns, weights).run()
-        print("\n📊 Backtest Summary:")
-        summary = bt.summary()
-        print(f"Total Return: {summary['Total Return']:.2%}")
-        print(f"CAGR: {summary['CAGR']:.2%}")
-        print(f"Volatility: {summary['Volatility']:.2f}")
-        print(f"Sharpe Ratio: {summary['Sharpe Ratio']:.2f}")
-        print(f"Max Drawdown: {summary['Max Drawdown']:.2f}")
-
-        equity_curve = bt.equity_curve
-        PortfolioPlotter.plot_equity_curve(equity_curve)
-
-
-    run_backtest(returns, opt_weights)
+    run_backtest(returns, opt_weights, cvar_95)
 
     summary = PortfolioBacktester(returns, opt_weights).run().summary(risk_free_rate=rf)
     start_date = price.index.min().strftime("%Y-%m-%d")
@@ -167,7 +181,4 @@ if __name__ == "__main__":
 
     pd.Series(opt_weights, index=tickers).to_csv("best_weights.csv")
 
-    if opt_sharpe > 0.7 and max_drawdown > -0.3:
-        print("✅ Portfolio meets real-world criteria (Sharpe > 0.7 and Max DD > -30%)")
-    else:
-        print("⚠️ Portfolio does NOT meet real-world criteria.")
+
