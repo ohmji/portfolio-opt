@@ -85,7 +85,7 @@ if __name__ == "__main__":
         'Volatility': port_vols,
         'Sharpe Ratio': sharpe_ratios
     })
-    port_df.to_csv("monte_carlo_portfolios.csv", index=False)
+    port_df.to_csv("summary/monte_carlo_portfolios.csv", index=False)
 
     # Construct Efficient Frontier using cvxpy
     ef_returns, ef_vols = construct_efficient_frontier(returns, tickers)
@@ -140,7 +140,7 @@ if __name__ == "__main__":
         'Target Return': ef_returns,
         'Volatility': ef_vols
     })
-    ef_df.to_csv("efficient_frontier.csv", index=False)
+    ef_df.to_csv("summary/efficient_frontier.csv", index=False)
 
     # Print weights of the optimal portfolio
     for t, w in zip(tickers, opt_weights):
@@ -175,10 +175,10 @@ if __name__ == "__main__":
         **top_weight_dict
     }
 
-    pd.DataFrame([result_dict]).to_csv("portfolio_metrics_summary.csv", index=False)
+    pd.DataFrame([result_dict]).to_csv("summary/portfolio_metrics_summary.csv", index=False)
 
     PortfolioPlotter.plot_asset_prices(price)
 
-    pd.Series(opt_weights, index=tickers).to_csv("best_weights.csv")
+    pd.Series(opt_weights, index=tickers).to_csv("summary/best_weights.csv")
 
 

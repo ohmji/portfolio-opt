@@ -9,7 +9,7 @@ class PortfolioPlotter:
         plt.xlabel('Date')
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig("drawdown_plot.png")
+        plt.savefig("reports/drawdown_plot.png")
         plt.close()
 
     @staticmethod
@@ -20,7 +20,7 @@ class PortfolioPlotter:
         plt.xlabel('Date')
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig("equity_curve_plot.png")
+        plt.savefig("reports/equity_curve_plot.png")
         plt.close()
 
     @staticmethod
@@ -35,7 +35,7 @@ class PortfolioPlotter:
         plt.legend()
         plt.title('Efficient Frontier with Random Portfolios')
         plt.grid(True)
-        plt.savefig("efficient_frontier_plot.png")
+        plt.savefig("reports/efficient_frontier_plot.png")
         plt.close()
 
     @staticmethod
@@ -46,5 +46,5 @@ class PortfolioPlotter:
         plt.ylabel("Price")
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig("asset_prices_plot.png")
+        plt.savefig("reports/asset_prices_plot.png")
         plt.close()
