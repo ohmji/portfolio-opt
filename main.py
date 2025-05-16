@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     # Load historical price data for selected tickers
     price = vbt.YFData.download(tickers, start='2015-01-01').get('Close')
-    price = price.dropna()  # remove rows with any missing data across assets
+    price = price.dropna(how='any')  # Drop all rows with any NaN values to align symbols properly
 
     # Calculate daily log returns
     returns = price.pct_change(fill_method=None).dropna()
