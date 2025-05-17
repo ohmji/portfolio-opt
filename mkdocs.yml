@@ -5,7 +5,7 @@ nav:
   - Intro: index.md
   - Walk‑Through: walk-through.md
   - Results: results.md
-
+  - References: references.md
 theme:
   name: material
 

@@ -4,6 +4,12 @@ A lightweight and modular framework for backtesting quantitative portfolio strat
 
 ---
 
+## 📖 Documentation
+
+Explore the full documentation here: [https://ohmji.github.io/portfolio-opt/](https://ohmji.github.io/portfolio-opt/)
+
+---
+
 ## 🚀 Features
 
 - ✅ Downloads historical stock data from Yahoo Finance via `vectorbt`

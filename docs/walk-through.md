@@ -1,31 +1,31 @@
-#  Portfolio Optimisation — Walk‑Through  
+# 📘 Portfolio Optimisation — Walk‑Through  
 *Build, test and understand a simple stock portfolio in Python.*
 
 ---
 
 ## Table of Contents    
 
-- [Portfolio Optimisation — Walk‑Through](#portfolio-optimisation--walkthrough)
+- [📘 Portfolio Optimisation — Walk‑Through](#-portfolio-optimisation--walkthrough)
   - [Table of Contents    ](#table-of-contents--)
-  - [Welcome](#welcome)
-  - [What We’re Building](#what-were-building)
-  - [Tools in the Toolbox](#tools-in-the-toolbox)
-  - [How the Strategy Works](#how-the-strategy-works)
-  - [Key Equations](#key-equations)
-  - [The Code — Step by Step](#the-code--step-by-step)
-  - [Code Nuggets](#code-nuggets)
-  - [Results at a Glance](#results-at-a-glance)
-  - [Run It Yourself](#run-it-yourself)
+  - [👋 Welcome](#-welcome)
+  - [🛠️ What We’re Building](#️-what-were-building)
+  - [🧰 Tools in the Toolbox](#-tools-in-the-toolbox)
+  - [⚙️ How the Strategy Works](#️-how-the-strategy-works)
+  - [🧮 Key Equations](#-key-equations)
+  - [🧵 The Code — Step by Step](#-the-code--step-by-step)
+  - [💡 Code Nuggets](#-code-nuggets)
+  - [📊 Results at a Glance](#-results-at-a-glance)
+  - [🚀 Run It Yourself](#-run-it-yourself)
 
 ---
 
-## Welcome  
+## 👋 Welcome  
 
 If you’ve ever wondered **how** people pick a mix of stocks and test it on past data, this guide is for you. We’ll start with ten well‑known companies and show — with code — how to: choose a mix of stocks each year, test it on past data, and compare the outcome to the S&P 500 ETF (*SPY*). No PhD or heavy maths required — just curiosity and some Python.
 
 ---
 
-## What We’re Building  
+## 🛠️ What We’re Building  
 
 * **Goal:** Grow money over the long run while minimizing wild swings.  
 * **Universe:** Ten large‑cap US stocks (Apple, Microsoft, Amazon, etc.).  
@@ -34,7 +34,7 @@ If you’ve ever wondered **how** people pick a mix of stocks and test it on pas
 
 ---
 
-## Tools in the Toolbox  
+## 🧰 Tools in the Toolbox  
 
 | Tool | Why we use it |
 |------|---------------|
@@ -47,7 +47,7 @@ Everything runs on plain Python 3.10+; nothing fancy to install.
 
 ---
 
-## How the Strategy Works  
+## ⚙️ How the Strategy Works  
 
 Picture a recipe book. Each **recipe** is a set of weights that tells us how much Apple, Microsoft, Amazon … to put in the pot. We want the recipe that offered the **tastiest return per unit of risk** last year.
 
@@ -63,7 +63,7 @@ Once we have that recipe, we cook with it for a year, then repeat the process.
 
 ---
 
-## Key Equations  
+## 🧮 Key Equations  
 
 Here are the handful of formulas you will see over and over in portfolio theory. MathJax is enabled, so feel free to copy‑paste these into your own notes.  
 
@@ -97,7 +97,7 @@ $$
 
 ---
 
-## The Code — Step by Step  
+## 🧵 The Code — Step by Step  
 
 ```mermaid
 flowchart TD
@@ -125,7 +125,7 @@ flowchart TD
 
 ---
 
-## Code Nuggets  
+## 💡 Code Nuggets  
 
 Sometimes you just want to see *one* self‑contained example. The snippet below shows **how we solve one point on the Efficient Frontier**.  
 
@@ -155,7 +155,7 @@ print("Portfolio σ:", (risk.value ** 0.5).round(4))
 
 ---
 
-## Results at a Glance  
+## 📊 Results at a Glance  
 
 After running `main.py` you’ll find:
 
@@ -167,7 +167,7 @@ After running `main.py` you’ll find:
 
 ---
 
-## Run It Yourself  
+## 🚀 Run It Yourself  
 
 ```bash
 # 1. Grab the code.
