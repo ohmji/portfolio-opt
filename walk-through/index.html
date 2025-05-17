@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href=".." rel="prev"/>
+<link href="../results/" rel="next"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.6.14" name="generator"/>
+<title>Walk‑Through - Portfolio Optimisation Docs</title>
+<link href="../assets/stylesheets/main.342714a4.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#portfolio-optimisation-walkthrough">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Portfolio Optimisation Docs" class="md-header__button md-logo" data-md-component="logo" href=".." title="Portfolio Optimisation Docs">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Portfolio Optimisation Docs
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Walk‑Through
+            
+          </span>
+</div>
+</div>
+</div>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Portfolio Optimisation Docs" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Portfolio Optimisation Docs">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Portfolio Optimisation Docs
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+<span class="md-ellipsis">
+    Intro
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    Walk‑Through
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    Walk‑Through
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#table-of-contents">
+<span class="md-ellipsis">
+      Table of Contents
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#welcome">
+<span class="md-ellipsis">
+      👋 Welcome
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-were-building">
+<span class="md-ellipsis">
+      🛠️ What We’re Building
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tools-in-the-toolbox">
+<span class="md-ellipsis">
+      🧰 Tools in the Toolbox
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#how-the-strategy-works">
+<span class="md-ellipsis">
+      ⚙️ How the Strategy Works
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#key-equations">
+<span class="md-ellipsis">
+      🧮 Key Equations
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-code-step-by-step">
+<span class="md-ellipsis">
+      🧵 The Code — Step by Step
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#code-nuggets">
+<span class="md-ellipsis">
+      💡 Code Nuggets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#results-at-a-glance">
+<span class="md-ellipsis">
+      📊 Results at a Glance
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#run-it-yourself">
+<span class="md-ellipsis">
+      🚀 Run It Yourself
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../results/">
+<span class="md-ellipsis">
+    Results
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../references/">
+<span class="md-ellipsis">
+    References
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#table-of-contents">
+<span class="md-ellipsis">
+      Table of Contents
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#welcome">
+<span class="md-ellipsis">
+      👋 Welcome
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-were-building">
+<span class="md-ellipsis">
+      🛠️ What We’re Building
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tools-in-the-toolbox">
+<span class="md-ellipsis">
+      🧰 Tools in the Toolbox
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#how-the-strategy-works">
+<span class="md-ellipsis">
+      ⚙️ How the Strategy Works
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#key-equations">
+<span class="md-ellipsis">
+      🧮 Key Equations
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-code-step-by-step">
+<span class="md-ellipsis">
+      🧵 The Code — Step by Step
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#code-nuggets">
+<span class="md-ellipsis">
+      💡 Code Nuggets
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#results-at-a-glance">
+<span class="md-ellipsis">
+      📊 Results at a Glance
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#run-it-yourself">
+<span class="md-ellipsis">
+      🚀 Run It Yourself
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="portfolio-optimisation-walkthrough">📘 Portfolio Optimisation — Walk‑Through<a class="headerlink" href="#portfolio-optimisation-walkthrough" title="Permanent link">¶</a></h1>
+<p><em>Build, test and understand a simple stock portfolio in Python.</em></p>
+<hr/>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">¶</a></h2>
+<ul>
+<li><a href="#-portfolio-optimisation--walkthrough">📘 Portfolio Optimisation — Walk‑Through</a></li>
+<li><a href="#table-of-contents--">Table of Contents    </a></li>
+<li><a href="#-welcome">👋 Welcome</a></li>
+<li><a href="#️-what-were-building">🛠️ What We’re Building</a></li>
+<li><a href="#-tools-in-the-toolbox">🧰 Tools in the Toolbox</a></li>
+<li><a href="#️-how-the-strategy-works">⚙️ How the Strategy Works</a></li>
+<li><a href="#-key-equations">🧮 Key Equations</a></li>
+<li><a href="#-the-code--step-by-step">🧵 The Code — Step by Step</a></li>
+<li><a href="#-code-nuggets">💡 Code Nuggets</a></li>
+<li><a href="#-results-at-a-glance">📊 Results at a Glance</a></li>
+<li><a href="#-run-it-yourself">🚀 Run It Yourself</a></li>
+</ul>
+<hr/>
+<h2 id="welcome">👋 Welcome<a class="headerlink" href="#welcome" title="Permanent link">¶</a></h2>
+<p>If you’ve ever wondered <strong>how</strong> people pick a mix of stocks and test it on past data, this guide is for you. We’ll start with ten well‑known companies and show — with code — how to: choose a mix of stocks each year, test it on past data, and compare the outcome to the S&amp;P 500 ETF (<em>SPY</em>). No PhD or heavy maths required — just curiosity and some Python.</p>
+<hr/>
+<h2 id="what-were-building">🛠️ What We’re Building<a class="headerlink" href="#what-were-building" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Goal:</strong> Grow money over the long run while minimizing wild swings.  </li>
+<li><strong>Universe:</strong> Ten large‑cap US stocks (Apple, Microsoft, Amazon, etc.).  </li>
+<li><strong>Tactic:</strong> Once a year, find the weights that gave the best risk‑adjusted return (<em>Sharpe Ratio</em>) over the past 12 months, then hold those weights for the next year.  </li>
+<li><strong>Benchmark:</strong> <em>SPY</em>, the go‑to yard‑stick for US equities.</li>
+</ul>
+<hr/>
+<h2 id="tools-in-the-toolbox">🧰 Tools in the Toolbox<a class="headerlink" href="#tools-in-the-toolbox" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Why we use it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VectorBT</strong></td>
+<td>Quickly downloads price data from Yahoo Finance.</td>
+</tr>
+<tr>
+<td><strong>NumPy / Pandas</strong></td>
+<td>Crunch numbers and wrangle data frames.</td>
+</tr>
+<tr>
+<td><strong>CVXPY</strong></td>
+<td>Solves the optimisation problem that draws the <em>efficient frontier</em>.</td>
+</tr>
+<tr>
+<td><strong>Matplotlib</strong></td>
+<td>Plots equity curves and other charts.</td>
+</tr>
+</tbody>
+</table>
+<p>Everything runs on plain Python 3.10+; nothing fancy to install.</p>
+<hr/>
+<h2 id="how-the-strategy-works">⚙️ How the Strategy Works<a class="headerlink" href="#how-the-strategy-works" title="Permanent link">¶</a></h2>
+<p>Picture a recipe book. Each <strong>recipe</strong> is a set of weights that tells us how much Apple, Microsoft, Amazon … to put in the pot. We want the recipe that offered the <strong>tastiest return per unit of risk</strong> last year.</p>
+<p><em>Risk</em> here is day‑to‑day ups and downs (<em>volatility</em>). The taste‑test score is the <strong>Sharpe Ratio</strong>:</p>
+<div class="arithmatex">\[
+\text{Sharpe} = \frac{\text{Average daily return} \times 252 - r_f}{\text{Daily volatility} \times \sqrt{252}}
+\]</div>
+<p>…where <span class="arithmatex">\(r_f\)</span> is the tiny “free” return you could have earned in cash (we use 3 %).</p>
+<p>Once we have that recipe, we cook with it for a year, then repeat the process.</p>
+<hr/>
+<h2 id="key-equations">🧮 Key Equations<a class="headerlink" href="#key-equations" title="Permanent link">¶</a></h2>
+<p>Here are the handful of formulas you will see over and over in portfolio theory. MathJax is enabled, so feel free to copy‑paste these into your own notes.  </p>
+<div class="arithmatex">\[
+  \mu_p = \mathbf{w}^\top \boldsymbol{\mu}
+\]</div>
+<div class="arithmatex">\[
+  \sigma_p = \sqrt{\mathbf{w}^\top \Sigma \,\mathbf{w}}
+\]</div>
+<div class="arithmatex">\[
+  \min_{\mathbf{w}} \;\sigma_p
+  \quad\text{s.t.}\quad
+  \begin{cases}
+    \mathbf{w}^\top \boldsymbol{\mu} \;\ge\; \mu_{\text{target}} \\
+    \sum_{i=1}^{N} w_i = 1 \\
+    w_i \ge 0 \quad \forall i
+  \end{cases}
+\]</div>
+<div class="arithmatex">\[
+  \text{CVaR}_{95\%} = -\frac{1}{N_{tail}}\sum_{i \in \text{worst }5\%} r_i
+\]</div>
+<p>$$
+  \sum_{i=1}^{N} w_i^2 \xrightarrow{} 0
+  \quad\text{implies a well‑diversified portfolio}
+$$
+(That last one is the <em>Herfindahl index</em> we plot each year.)</p>
+<hr/>
+<h2 id="the-code-step-by-step">🧵 The Code — Step by Step<a class="headerlink" href="#the-code-step-by-step" title="Permanent link">¶</a></h2>
+<div class="mermaid">flowchart TD
+    A[main.py] --&gt;|Download| B[Daily Prices]
+    B --&gt; C[Daily % Returns]
+    C --&gt;|Sample 10 000 random recipes| D[Sharpe Scores]
+    D --&gt;|Pick the best| E[Yearly Weights]
+    C --&gt;|CVXPY loop| F[Efficient Frontier]
+    E --&gt; G[PortfolioBacktester]
+    G --&gt; H[Equity Curve]
+    H --&gt; I[Plot &amp; Save Charts]
+    F --&gt; I
+    G --&gt; J[Write CSV Summaries]
+    style A fill:#e8f4ff,stroke:#1c6fd3
+    style I fill:#fff7e6,stroke:#c99400</div>
+<ol>
+<li><strong>Get the data</strong> from Yahoo Finance.  </li>
+<li><strong>Generate 10 000 random weight vectors</strong> with a Dirichlet distribution.  </li>
+<li><strong>Score</strong> each weight set by its Sharpe Ratio.  </li>
+<li><strong>Keep</strong> the top‑scoring weights.  </li>
+<li><strong>Test</strong> those weights on the actual returns for that year.  </li>
+<li><strong>Stitch together</strong> the yearly equity curves to form one long curve.  </li>
+<li><strong>Compare</strong> that curve with <em>SPY</em> and save everything (plots + CSV) in the <code>reports/</code> and <code>exports/</code> folders.</li>
+</ol>
+<hr/>
+<h2 id="code-nuggets">💡 Code Nuggets<a class="headerlink" href="#code-nuggets" title="Permanent link">¶</a></h2>
+<p>Sometimes you just want to see <em>one</em> self‑contained example. The snippet below shows <strong>how we solve one point on the Efficient Frontier</strong>.  </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">cvxpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
+
+<span class="c1"># mus and cov are taken from historical returns</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tickers</span><span class="p">))</span>
+<span class="n">risk</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">quad_form</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">cov</span><span class="p">)</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span>
+    <span class="n">cp</span><span class="o">.</span><span class="n">Minimize</span><span class="p">(</span><span class="n">risk</span><span class="p">),</span>
+    <span class="p">[</span>
+        <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span>      <span class="c1"># fully invested</span>
+        <span class="n">w</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span>              <span class="c1"># long‑only</span>
+        <span class="n">mus</span> <span class="o">@</span> <span class="n">w</span> <span class="o">&gt;=</span> <span class="n">target</span>    <span class="c1"># hit desired return</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Weights:"</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Portfolio σ:"</span><span class="p">,</span> <span class="p">(</span><span class="n">risk</span><span class="o">.</span><span class="n">value</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+</code></pre></div>
+<p>👉 <strong>Tip:</strong> swap <code>cp.Minimize(risk)</code> for <code>cp.Maximize(sharpe)</code> if you feel adventurous.<br/>
+(Just remember to define the Sharpe expression first!)</p>
+<hr/>
+<h2 id="results-at-a-glance">📊 Results at a Glance<a class="headerlink" href="#results-at-a-glance" title="Permanent link">¶</a></h2>
+<p>After running <code>main.py</code> you’ll find:</p>
+<ul>
+<li><strong>Equity &amp; Drawdown Plot</strong> – see growth and the worst dips.  </li>
+<li><strong>Efficient Frontier Plots</strong> – one fancy curve per year.  </li>
+<li><strong>CSV summaries</strong> – handy for spreadsheets or deeper analysis.</li>
+</ul>
+<p><em>(Files land in <code>reports/</code> and <code>exports/</code>. Feel free to open them and poke around.)</em></p>
+<hr/>
+<h2 id="run-it-yourself">🚀 Run It Yourself<a class="headerlink" href="#run-it-yourself" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Grab the code.</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/your_user/portfolio-opt.git
+<span class="nb">cd</span><span class="w"> </span>portfolio-opt
+
+<span class="c1"># 2. Install requirements (about 1–2 min).</span>
+poetry<span class="w"> </span>install<span class="w">  </span><span class="c1"># or: pip install -r requirements.txt</span>
+
+<span class="c1"># 3. Launch the pipeline.</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>main.py
+</code></pre></div>
+<p><strong>Tinker Time</strong><br/>
+Open <code>main.py</code> to:</p>
+<ul>
+<li>swap in different tickers.  </li>
+<li>widen the date range.  </li>
+<li>change the number of random portfolios (<code>n_ports</code>).</li>
+</ul>
+<p>Then hit <strong>Run</strong> again and see how the story changes.</p>
+<hr/>
+<p><em>Happy exploring, and may your portfolios be ever in your favour!</em> 🎉</p>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({
+    javascript: "https://unpkg.com/mermaid@10.4.0/dist/mermaid.min.js"
+});</script></body>
+</html>

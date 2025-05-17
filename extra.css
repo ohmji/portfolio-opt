@@ -1,0 +1,9 @@
+.arithmatex {
+    font-size: 100%;
+    display: block;
+}
+
+.katex-display, .MathJax_Display {
+    margin: 1em 0;
+    text-align: center;
+}
