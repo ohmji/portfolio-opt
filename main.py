@@ -34,151 +34,132 @@ def construct_efficient_frontier(returns, tickers, num_points=100):
     return ef_returns, ef_vols
 
 
-def run_backtest(returns, weights, cvar_95=None):
-    bt = PortfolioBacktester(returns, weights)
-    if cvar_95 is not None:
-        bt = bt.with_cvar(cvar_95)
-    bt = bt.run()
 
-    print("\n📊 Backtest Summary:")
-    summary = bt.summary()
-    print(f"Total Return: {summary['Total Return']:.2%}")
-    print(f"CAGR: {summary['CAGR']:.2%}")
-    print(f"Volatility: {summary['Volatility']:.2f}")
-    print(f"Sharpe Ratio: {summary['Sharpe Ratio']:.2f}")
-    print(f"Max Drawdown: {summary['Max Drawdown']:.2f}")
-    if 'CVaR (95%)' in summary:
-        print(f"CVaR (95%): {summary['CVaR (95%)']:.2%}")
+def summarize_equity_curve(equity_curve, returns, risk_free_rate):
+    weights = np.ones(len(returns.columns)) / len(returns.columns)
+    bt = PortfolioBacktester(returns, weights, initial_value=equity_curve.iloc[0])
+    bt.run()  # use run to compute all metrics
+    bt.equity_curve = equity_curve  # override only equity_curve if needed for external curve
+    summary = bt.summary(risk_free_rate=risk_free_rate)
+    return summary, bt
 
-    equity_curve = bt.equity_curve
-    PortfolioPlotter.plot_equity_curve(equity_curve)
-
+def format_summary_df(df, percent_cols):
+    formatted_df = df.copy()
+    for col in formatted_df.columns:
+        if col in percent_cols:
+            formatted_df[col] = formatted_df[col].apply(lambda x: f"{x:.2%}")
+        else:
+            formatted_df[col] = formatted_df[col].apply(lambda x: f"{x:.4f}")
+    return formatted_df
 
 if __name__ == "__main__":
     # Load historical price data for selected tickers
     
     # tickers = ['BRK-B', 'META','UNH','JD','GOOGL','HCA','BABA']
-    tickers = ['AAPL', 'MSFT', 'AMZN', 'META', 'GOOGL', 'NVDA', 'TSLA']
+    tickers = ['AAPL', 'MSFT', 'AMZN', 'META', 'GOOGL', 'NVDA', 'TSLA','BRK-B','JNJ']
 
     # Load historical price data for selected tickers
-    price = vbt.YFData.download(tickers, start='2015-01-01').get('Close')
+    price = vbt.YFData.download(tickers, start='2019-01-01',end ='2024-12-31').get('Close')
     price = price.dropna(how='any')  # Drop all rows with any NaN values to align symbols properly
 
     # Calculate daily log returns
     returns = price.pct_change(fill_method=None).dropna(how='any')
 
-    # Number of simulated portfolios
-    n_ports = 10_000
-    np.random.seed(42)
-    weights = np.random.dirichlet(np.ones(len(tickers)), size=n_ports)
-
-    # Calculate expected return & volatility
-    port_returns = np.dot(weights, returns.mean()) * 252
-    port_vols = np.sqrt(np.diag(weights @ returns.cov().values @ weights.T)) * np.sqrt(252)
     rf = 0.03  # Risk-free rate
 
-    sharpe_ratios = (port_returns - rf) / port_vols
+    print("\n📅 Running annual rebalancing backtest...")
+    all_equity = pd.Series(dtype=float)
 
-    # Export Monte Carlo portfolio metrics
-    port_df = pd.DataFrame({
-        'Return': port_returns,
-        'Volatility': port_vols,
-        'Sharpe Ratio': sharpe_ratios
-    })
-    port_df.to_csv("summary/monte_carlo_portfolios.csv", index=False)
+    n_ports = 10_000
+    np.random.seed(42)
 
-    # Construct Efficient Frontier using cvxpy
-    ef_returns, ef_vols = construct_efficient_frontier(returns, tickers)
+    yearly_summaries = {}
+    annual_weights = {}
+
+    for year in sorted(returns.index.to_series().dropna().dt.year.unique()):
+        start = f"{year}-01-01"
+        end = f"{year}-12-31"
+        yearly_returns = returns.loc[start:end]
+
+        if len(yearly_returns) < 50:
+            continue
+
+        weights = np.random.dirichlet(np.ones(len(tickers)), size=n_ports)
+        port_returns = np.dot(weights, yearly_returns.mean()) * 252
+        port_vols = np.sqrt(np.diag(weights @ yearly_returns.cov().values @ weights.T)) * np.sqrt(252)
+        sharpe_ratios = (port_returns - rf) / port_vols
+
+        max_sharpe_idx = np.argmax(sharpe_ratios)
+        opt_weights = weights[max_sharpe_idx]
+
+        annual_weights[year] = dict(zip(tickers, opt_weights))
+
+        ef_returns, ef_vols = construct_efficient_frontier(yearly_returns, tickers)
+        PortfolioPlotter.plot_efficient_frontier(
+            port_vols,
+            port_returns,
+            sharpe_ratios,
+            ef_vols,
+            ef_returns,
+            max_sharpe_idx,
+            filename=f"reports/efficient_frontier/efficient_frontier_{year}.png"
+        )
+
+        initial_value = all_equity.iloc[-1] if not all_equity.empty else 1_000_000
+        bt = PortfolioBacktester(yearly_returns, opt_weights, initial_value=initial_value).run()
+        year_equity = bt.equity_curve
+        if all_equity.empty:
+            all_equity = year_equity
+        else:
+            all_equity = pd.concat([all_equity, year_equity])
         
-    # Find max Sharpe portfolio
-    max_sharpe_idx = np.argmax(sharpe_ratios)
-    opt_weights = weights[max_sharpe_idx]
+        year_summary = bt.summary(risk_free_rate=rf)
+        yearly_summaries[year] = year_summary
 
-    # Calculate metrics of max Sharpe portfolio
-    opt_return = port_returns[max_sharpe_idx]
-    opt_vol = port_vols[max_sharpe_idx]
-    opt_sharpe = sharpe_ratios[max_sharpe_idx]
+    # Plot portfolio margin per year
+    margin_per_year = {}
 
-    # Display financial metrics of max Sharpe portfolio
-    print(f"\n🔍 Portfolio with Maximum Sharpe Ratio:")
-    print(f"Expected Annual Return: {opt_return:.2%}")
-    print(f"Annual Volatility: {opt_vol:.2%}")
-    print(f"Sharpe Ratio: {opt_sharpe:.2f}")
+    for year, weights in annual_weights.items():
+        w = np.array(list(weights.values()))
+        margin = np.sum(w ** 2)  # Herfindahl index style margin (proxy for concentration)
+        margin_per_year[year] = margin
 
-    # Calculate daily returns of the optimal portfolio
-    port_daily_returns = returns @ opt_weights
+    PortfolioPlotter.plot_portfolio_margin(margin_per_year)
+    PortfolioPlotter.plot_portfolio_allocation(annual_weights)
 
-    # Calculate max drawdown of the optimal portfolio
-    portfolio = (returns @ opt_weights).add(1).cumprod()
-    drawdown = (portfolio / portfolio.cummax()) - 1
-    max_drawdown = drawdown.min()
+    all_equity.to_csv("exports/annual_rebalanced_equity.csv")
+    PortfolioPlotter.plot_equity_curve(all_equity)
 
-    print(f"Max Drawdown: {max_drawdown:.2%}")
+    percent_cols = {'Total Return', 'CAGR', 'Volatility', 'Max Drawdown', 'CVaR (95%)'}
 
-    # Calculate Calmar Ratio
-    calmar_ratio = opt_return / abs(max_drawdown)
-    print(f"Calmar Ratio: {calmar_ratio:.2f}")
+    # Full backtest summary export
+    full_returns = pd.DataFrame(all_equity.pct_change().dropna(), columns=['Portfolio'])
+    summary_dict, full_bt = summarize_equity_curve(all_equity, full_returns, rf)
 
-    downside_returns = port_daily_returns[port_daily_returns < 0]
-    sortino_ratio = (opt_return - rf) / np.std(downside_returns)
-    print(f"Sortino Ratio: {sortino_ratio:.2f}")
+    print("\n📊 Backtest Summary (Annual Rebalanced Portfolio):")
+    percent_keys = {'Total Return', 'CAGR', 'Volatility', 'Max Drawdown', 'CVaR (95%)'}
+    for k, v in summary_dict.items():
+        if isinstance(v, float):
+            if k in percent_keys:
+                print(f"{k}: {v:.2%}")
+            else:
+                print(f"{k}: {v:.4f}")
+        else:
+            print(f"{k}: {v}")
 
-    PortfolioPlotter.plot_drawdown(drawdown)
+    full_df = pd.DataFrame([summary_dict])
+    formatted_full_df = format_summary_df(full_df, percent_cols)
+    formatted_full_df.to_csv("exports/full_backtest_summary.csv", index=False)
 
-    # Calculate 95% Value at Risk (VaR)
-    confidence_level = 0.95
-    var_95 = -np.percentile(port_daily_returns, (1 - confidence_level) * 100)
-    print(f"Value at Risk (95%): {var_95:.2%}")
+    # Annual summary export
+    summary_df = pd.DataFrame(yearly_summaries).T
+    formatted_annual_df = format_summary_df(summary_df, percent_cols)
+    formatted_annual_df.to_csv("exports/annual_summary.csv")
+    print("\n📊 Annual Summary:")
+    print(summary_df.to_string(float_format=lambda x: f"{x:.2%}" if isinstance(x, float) else str(x)))
 
-    cvar_95 = -port_daily_returns[port_daily_returns <= -var_95].mean()
-    print(f"Conditional Value at Risk (95%): {cvar_95:.2%}")
-
-    PortfolioPlotter.plot_efficient_frontier(port_vols, port_returns, sharpe_ratios, ef_vols, ef_returns, max_sharpe_idx)
-
-    # Export Efficient Frontier data
-    ef_df = pd.DataFrame({
-        'Target Return': ef_returns,
-        'Volatility': ef_vols
-    })
-    ef_df.to_csv("summary/efficient_frontier.csv", index=False)
-
-    # Print weights of the optimal portfolio
-    for t, w in zip(tickers, opt_weights):
-        print(f"{t}: {w:.2%}")
-
-    run_backtest(returns, opt_weights, cvar_95)
-
-    summary = PortfolioBacktester(returns, opt_weights).run().summary(risk_free_rate=rf)
-    start_date = price.index.min().strftime("%Y-%m-%d")
-    end_date = price.index.max().strftime("%Y-%m-%d")
-    top_weights = sorted(zip(tickers, opt_weights), key=lambda x: x[1], reverse=True)[:5]
-    top_weight_dict = {f"Top Weight {i+1} ({t})": w for i, (t, w) in enumerate(top_weights)}
-
-    # Export full result summary to CSV for feedback loop
-    result_dict = {
-        'Start Date': start_date,
-        'End Date': end_date,
-        'Num Assets': len(tickers),
-        'Expected Annual Return': opt_return,
-        'Annual Volatility': opt_vol,
-        'Sharpe Ratio': opt_sharpe,
-        'Max Drawdown': max_drawdown,
-        'Calmar Ratio': calmar_ratio,
-        'Sortino Ratio': sortino_ratio,
-        'Value at Risk (95%)': var_95,
-        'Conditional Value at Risk (95%)': cvar_95,
-        'Backtest Total Return': summary['Total Return'],
-        'Backtest CAGR': summary['CAGR'],
-        'Backtest Volatility': summary['Volatility'],
-        'Backtest Sharpe Ratio': summary['Sharpe Ratio'],
-        'Backtest Max Drawdown': summary['Max Drawdown'],
-        **top_weight_dict
-    }
-
-    pd.DataFrame([result_dict]).to_csv("summary/portfolio_metrics_summary.csv", index=False)
-
-    PortfolioPlotter.plot_asset_prices(price)
-
-    pd.Series(opt_weights, index=tickers).to_csv("summary/best_weights.csv")
-
-
+    if 'annual_weights' in locals():
+        weights_df = pd.DataFrame(annual_weights).T
+        weights_df.to_csv("exports/annual_weights.csv")
+        print("\n📊 Annual Portfolio Weights:")
+        print(weights_df)
