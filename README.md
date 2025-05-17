@@ -6,7 +6,7 @@ A lightweight and modular framework for backtesting quantitative portfolio strat
 
 ## 📖 Documentation
 
-Explore the full documentation here: 📘 [Read the Docs](https://ohmji.github.io/portfolio-opt/)
+Explore the full documentation here: 📘 [Read the Docs](https://ohmji.github.io/portfolio-optimization)
 
 ---
 
