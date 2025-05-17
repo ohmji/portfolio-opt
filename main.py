@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cvxpy as cp
 import pandas as pd
+from pathlib import Path
 from portfolio_backtester import PortfolioBacktester
 from portfolio_plotter import PortfolioPlotter
 
@@ -55,12 +56,21 @@ def format_summary_df(df, percent_cols):
 if __name__ == "__main__":
     # Load historical price data for selected tickers
     
-    # tickers = ['BRK-B', 'META','UNH','JD','GOOGL','HCA','BABA']
-    tickers = ['AAPL', 'MSFT', 'AMZN', 'META', 'GOOGL', 'NVDA', 'TSLA','BRK-B','JNJ']
+    # Ensure output directories exist
+    Path("reports").mkdir(exist_ok=True)
+    Path("reports/efficient_frontier").mkdir(parents=True, exist_ok=True)
+    Path("exports").mkdir(exist_ok=True)
+
+    tickers = ['AAPL', 'MSFT', 'AMZN', 'META', 'GOOGL', 'NVDA','BRK-B','V','JNJ','HCA']
 
     # Load historical price data for selected tickers
     price = vbt.YFData.download(tickers, start='2019-01-01',end ='2024-12-31').get('Close')
     price = price.dropna(how='any')  # Drop all rows with any NaN values to align symbols properly
+
+    # Download benchmark SPY
+    spy = vbt.YFData.download('SPY', start='2019-01-01', end='2024-12-31').get('Close')
+    spy = spy.dropna()
+    spy_returns = spy.pct_change(fill_method=None).dropna().to_frame(name='SPY')
 
     # Calculate daily log returns
     returns = price.pct_change(fill_method=None).dropna(how='any')
@@ -129,6 +139,7 @@ if __name__ == "__main__":
 
     all_equity.to_csv("exports/annual_rebalanced_equity.csv")
     PortfolioPlotter.plot_equity_curve(all_equity)
+    PortfolioPlotter.plot_equity_vs_benchmark(all_equity, spy)
 
     percent_cols = {'Total Return', 'CAGR', 'Volatility', 'Max Drawdown', 'CVaR (95%)'}
 
@@ -137,10 +148,9 @@ if __name__ == "__main__":
     summary_dict, full_bt = summarize_equity_curve(all_equity, full_returns, rf)
 
     print("\n📊 Backtest Summary (Annual Rebalanced Portfolio):")
-    percent_keys = {'Total Return', 'CAGR', 'Volatility', 'Max Drawdown', 'CVaR (95%)'}
     for k, v in summary_dict.items():
         if isinstance(v, float):
-            if k in percent_keys:
+            if k in percent_cols:
                 print(f"{k}: {v:.2%}")
             else:
                 print(f"{k}: {v:.4f}")
@@ -150,6 +160,16 @@ if __name__ == "__main__":
     full_df = pd.DataFrame([summary_dict])
     formatted_full_df = format_summary_df(full_df, percent_cols)
     formatted_full_df.to_csv("exports/full_backtest_summary.csv", index=False)
+
+    # Benchmark Summary
+    benchmark_bt = PortfolioBacktester(spy_returns, np.array([1.0]), initial_value=1_000_000).run()
+    benchmark_summary = benchmark_bt.summary(risk_free_rate=rf)
+    benchmark_df = pd.DataFrame([benchmark_summary])
+    formatted_benchmark_df = format_summary_df(benchmark_df, percent_cols)
+    formatted_benchmark_df.to_csv("exports/benchmark_summary.csv", index=False)
+
+    print("\n📊 Benchmark (SPY) Summary:")
+    print(benchmark_df.to_string(float_format=lambda x: f"{x:.2%}" if isinstance(x, float) else str(x)))
 
     # Annual summary export
     summary_df = pd.DataFrame(yearly_summaries).T

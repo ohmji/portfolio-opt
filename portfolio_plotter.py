@@ -1,7 +1,15 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
 
 class PortfolioPlotter:
+    @staticmethod
+    def _savefig(filename: str):
+        """Helper to ensure the target directory exists before saving a figure."""
+        if filename:
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
+        plt.savefig(filename)
+
     @staticmethod
     def plot_drawdown(drawdown):
         plt.figure(figsize=(10, 4))
@@ -10,7 +18,7 @@ class PortfolioPlotter:
         plt.xlabel('Date')
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig("reports/drawdown_plot.png")
+        PortfolioPlotter._savefig("reports/drawdown_plot.png")
         plt.close()
 
     @staticmethod
@@ -32,7 +40,7 @@ class PortfolioPlotter:
         axs[1].grid(True)
 
         plt.tight_layout()
-        plt.savefig("reports/equity_and_drawdown_plot.png")
+        PortfolioPlotter._savefig("reports/equity_and_drawdown_plot.png")
         plt.close()
 
     @staticmethod
@@ -47,7 +55,7 @@ class PortfolioPlotter:
         plt.legend()
         plt.title('Efficient Frontier with Random Portfolios')
         plt.grid(True)
-        plt.savefig(filename)
+        PortfolioPlotter._savefig(filename)
         plt.close()
 
     @staticmethod
@@ -58,7 +66,7 @@ class PortfolioPlotter:
         plt.ylabel("Price")
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig("reports/asset_prices_plot.png")
+        PortfolioPlotter._savefig("reports/asset_prices_plot.png")
         plt.close()
 
     @staticmethod
@@ -70,7 +78,7 @@ class PortfolioPlotter:
         plt.xlabel('Year')
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig(filename)
+        PortfolioPlotter._savefig(filename)
         plt.close()
 
     @staticmethod
@@ -83,7 +91,21 @@ class PortfolioPlotter:
         plt.xlabel("Year")
         plt.legend(title="Ticker", bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.tight_layout()
-        plt.savefig(filename)
+        PortfolioPlotter._savefig(filename)
         plt.close()
 
-    
+    @staticmethod
+    def plot_equity_vs_benchmark(equity_curve, benchmark_price, filename="reports/equity_vs_benchmark_plot.png"):
+        plt.figure(figsize=(12, 6))
+        norm_equity = equity_curve / equity_curve.iloc[0]
+        norm_benchmark = benchmark_price / benchmark_price.iloc[0]
+        norm_equity.plot(label="Portfolio")
+        norm_benchmark.plot(label="SPY Benchmark")
+        plt.title("Portfolio vs. Benchmark (SPY)")
+        plt.ylabel("Normalized Value")
+        plt.xlabel("Date")
+        plt.legend()
+        plt.grid(True)
+        plt.tight_layout()
+        PortfolioPlotter._savefig(filename)
+        plt.close()
