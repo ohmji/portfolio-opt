@@ -1,0 +1,35 @@
+site_name: Portfolio Optimisation Docs
+docs_dir: docs
+
+nav:
+  - Intro: index.md
+  - Walk‑Through: walk-through.md
+  - Results: results.md
+
+theme:
+  name: material
+
+markdown_extensions:
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - extra.css
+
+plugins:
+  - search
+  - mermaid2:
+      arguments:
+        javascript: https://unpkg.com/mermaid@10.4.0/dist/mermaid.min.js

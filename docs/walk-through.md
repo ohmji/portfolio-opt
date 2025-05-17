@@ -1,4 +1,4 @@
-# Portfolio Optimisation — Walk‑Through  
+#  Portfolio Optimisation — Walk‑Through  
 *Build, test and understand a simple stock portfolio in Python.*
 
 ---
@@ -67,37 +67,32 @@ Once we have that recipe, we cook with it for a year, then repeat the process.
 
 Here are the handful of formulas you will see over and over in portfolio theory. MathJax is enabled, so feel free to copy‑paste these into your own notes.  
 
-*Expected portfolio return*  
-\[
-  \mu_p \;=\; \mathbf{w}^\top \boldsymbol{\mu}
-\]
+$$
+  \mu_p = \mathbf{w}^\top \boldsymbol{\mu}
+$$
 
-*Portfolio volatility (standard deviation)*  
-\[
-  \sigma_p \;=\; \sqrt{\mathbf{w}^\top \Sigma \,\mathbf{w}}
-\]
+$$
+  \sigma_p = \sqrt{\mathbf{w}^\top \Sigma \,\mathbf{w}}
+$$
 
-*Optimisation objective used for the Efficient Frontier*  
-\[
+$$
   \min_{\mathbf{w}} \;\sigma_p
   \quad\text{s.t.}\quad
   \begin{cases}
     \mathbf{w}^\top \boldsymbol{\mu} \;\ge\; \mu_{\text{target}} \\
-    \sum_{i=1}^{N} w_i \;=\; 1 \\
-    w_i \;\ge\; 0 \quad \forall i
+    \sum_{i=1}^{N} w_i = 1 \\
+    w_i \ge 0 \quad \forall i
   \end{cases}
-\]
+$$
 
-*Conditional Value at Risk (CVaR) at 95 %*  
-\[
-  \text{CVaR}_{95\%} \;=\; -\frac{1}{N_{tail}}\sum_{i \in \text{worst }5\%} r_i
-\]
+$$
+  \text{CVaR}_{95\%} = -\frac{1}{N_{tail}}\sum_{i \in \text{worst }5\%} r_i
+$$
 
-*Quick sanity check*  
-\[
-  \sum_{i=1}^{N} w_i^2 \;\xrightarrow{} 0
+$$
+  \sum_{i=1}^{N} w_i^2 \xrightarrow{} 0
   \quad\text{implies a well‑diversified portfolio}
-\]
+$$
 (That last one is the *Herfindahl index* we plot each year.)
 
 ---
