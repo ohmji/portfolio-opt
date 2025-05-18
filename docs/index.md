@@ -5,6 +5,10 @@
 
 ---
 
+<p align="center">
+  <img src="assets/efficient_frontier.png" alt="Portfolio Flow" width="600"/>
+</p>
+
 ## 🌱 Why this project exists
 
 This project didn’t begin in a finance lab or on Wall Street.  

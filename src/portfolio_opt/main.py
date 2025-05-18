@@ -93,11 +93,15 @@ def run_annual_rebalanced_backtest(
     risk_free_rate: float = 0.03,
     num_random_ports: int = 10_000,
     seed: int = 42,
+    rebalance_freq: str = "YE",  # "YE"=yearly, "6M"=semi‑annual, "3M" or "Q"=quarterly
 ) -> None:
-    """Run an annual‑rebalanced max‑Sharpe backtest and export reports."""
+    """Run a max‑Sharpe backtest with configurable rebalancing frequency (`A`, `6M`, `Q`/`3M`)."""
     # Prepare output dirs
     Path("reports/efficient_frontier").mkdir(parents=True, exist_ok=True)
     Path("exports").mkdir(exist_ok=True)
+
+    if rebalance_freq not in {"YE", "6M", "Q", "3M"}:
+        raise ValueError("rebalance_freq must be one of 'YE', '6M', 'Q', or '3M'")
 
     # Market data
     price = (
@@ -121,25 +125,34 @@ def run_annual_rebalanced_backtest(
     yearly_summaries: dict[int, dict] = {}
     annual_weights: dict[int, dict[str, float]] = {}
 
-    # Year‑by‑year optimisation & backtest
-    for year in sorted(returns.index.year.unique()):
-        yearly_returns = returns.loc[f"{year}-01-01": f"{year}-12-31"]
-        if len(yearly_returns) < 50:
+    # -----------------------------------------------------------------
+    # Period‑by‑period optimisation & backtest (frequency = rebalance_freq)
+    # -----------------------------------------------------------------
+    period_groups = returns.groupby(pd.Grouper(freq=rebalance_freq))
+    for period_start, period_returns in period_groups:
+        if period_returns.empty or len(period_returns) < 50:
             continue
 
+        # Human‑readable label (used for dict keys & filenames)
+        if rebalance_freq == "YE":
+            label = str(period_start.year)
+        else:
+            label = f"{period_start.strftime('%Y%m%d')}_{period_returns.index[-1].strftime('%Y%m%d')}"
+
+        # Random portfolios for this period
         weights = np.random.dirichlet(np.ones(len(tickers)), size=num_random_ports)
-        port_returns = np.dot(weights, yearly_returns.mean()) * 252
+        port_returns = np.dot(weights, period_returns.mean()) * 252
         port_vols = (
-            np.sqrt(np.diag(weights @ yearly_returns.cov().values @ weights.T))
+            np.sqrt(np.diag(weights @ period_returns.cov().values @ weights.T))
             * np.sqrt(252)
         )
         sharpe = (port_returns - risk_free_rate) / port_vols
         max_idx = sharpe.argmax()
         opt_weights = weights[max_idx]
-        annual_weights[year] = dict(zip(tickers, opt_weights))
+        annual_weights[label] = dict(zip(tickers, opt_weights))
 
         # Efficient frontier plot
-        ef_ret, ef_vol = construct_efficient_frontier(yearly_returns, tickers)
+        ef_ret, ef_vol = construct_efficient_frontier(period_returns, tickers)
         PortfolioPlotter.plot_efficient_frontier(
             port_vols,
             port_returns,
@@ -147,18 +160,18 @@ def run_annual_rebalanced_backtest(
             ef_vol,
             ef_ret,
             max_idx,
-            filename=f"reports/efficient_frontier/efficient_frontier_{year}.png",
+            filename=f"reports/efficient_frontier/efficient_frontier_{label}.png",
         )
 
         # Backtest with optimal weights
         init_val = all_equity.iloc[-1] if not all_equity.empty else initial_value
-        bt = PortfolioBacktester(yearly_returns, opt_weights, initial_value=init_val).run()
+        bt = PortfolioBacktester(period_returns, opt_weights, initial_value=init_val).run()
         all_equity = (
             pd.concat([all_equity, bt.equity_curve])
             if not all_equity.empty
             else bt.equity_curve
         )
-        yearly_summaries[year] = bt.summary(risk_free_rate=risk_free_rate)
+        yearly_summaries[label] = bt.summary(risk_free_rate=risk_free_rate)
 
     # Plots & exports
     margin = {y: np.sum(np.square(list(w.values()))) for y, w in annual_weights.items()}
@@ -249,6 +262,12 @@ def main() -> None:
         help="Number of random portfolios sampled each year.",
     )
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")
+    parser.add_argument(
+        "--rebalance",
+        default="YE",
+        choices=["YE", "6M", "Q", "3M"],
+        help="Rebalance frequency: A=annual (default), 6M=semi‑annual, Q or 3M=quarterly.",
+    )
     args = parser.parse_args()
 
     run_annual_rebalanced_backtest(
@@ -260,6 +279,7 @@ def main() -> None:
         risk_free_rate=args.rf,
         num_random_ports=args.num_ports,
         seed=args.seed,
+        rebalance_freq=args.rebalance,
     )
 
 

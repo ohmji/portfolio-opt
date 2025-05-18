@@ -1,6 +1,6 @@
 # 📈 Portfolio Optimization & Backtesting
 
-A lightweight and modular framework for backtesting quantitative portfolio strategies using **annual rebalancing**, **efficient frontier analysis**, and **Sharpe ratio optimization**.
+A lightweight and modular framework for backtesting quantitative portfolio strategies using **configurable rebalancing (annual / 6‑month / quarterly)**, **efficient frontier analysis**, and **Sharpe ratio optimization**.
 
 ---
 
@@ -21,8 +21,9 @@ poetry add portfolio-opt
 ## 🚀 Features
 
 - ✅ Downloads historical stock data from Yahoo Finance via `vectorbt`
-- ✅ Samples 10,000 random portfolios per calendar year
-- ✅ Selects the **maximum Sharpe ratio portfolio** annually
+- ✅ Samples 10,000 random portfolios per rebalance period
+- ✅ Selects the **maximum Sharpe ratio portfolio** each rebalance period
+- ✅ Flexible `--rebalance` flag (`A`, `6M`, `Q`/ `3M`) to control rebalancing frequency
 - ✅ Computes and plots the **Efficient Frontier** using `cvxpy`
 - ✅ Tracks performance vs. benchmark (`SPY`)
 - ✅ Exports detailed reports: PNG plots and CSV summaries
@@ -68,7 +69,7 @@ portfolio-opt/
 
 ```bash
 # Run via the CLI (recommended)
-portfolio-opt --tickers AAPL MSFT NVDA --start-date 2020-01-01 --end-date 2024-12-31
+portfolio-opt --tickers AAPL MSFT NVDA --start-date 2020-01-01 --end-date 2024-12-31 --rebalance 6M
 
 # Or call programmatically
 python - << 'PY'
@@ -97,6 +98,7 @@ PY
 | Tickers | `--tickers` CLI flag **or** pass `tickers=[...]` to `run_annual_rebalanced_backtest` |
 | Risk‑Free Rate | `--rf` CLI flag **or** `risk_free_rate=` param |
 | Portfolio Samples | `--num-ports` CLI flag |
+| Rebalance Frequency | `--rebalance` CLI flag (`A`, `6M`, `Q`/ `3M`) **or** function param `rebalance_freq=` |
 | Date Range | `--start-date` / `--end-date` flags or function params |
 
 ---

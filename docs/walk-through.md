@@ -29,7 +29,7 @@ If you’ve ever wondered **how** people pick a mix of stocks and test it on pas
 
 * **Goal:** Grow money over the long run while minimizing wild swings.  
 * **Universe:** Ten large‑cap US stocks (Apple, Microsoft, Amazon, etc.).  
-* **Tactic:** Once a year, find the weights that gave the best risk‑adjusted return (*Sharpe Ratio*) over the past 12 months, then hold those weights for the next year.  
+* **Tactic:** Every 1Y / 6M / 3M, find the weights that gave the best risk‑adjusted return (*Sharpe Ratio*) over the past period, then hold those weights for the next.  
 * **Benchmark:** *SPY*, the go‑to yard‑stick for US equities.
 
 ---
@@ -178,7 +178,7 @@ cd portfolio-opt
 poetry install  # or: pip install -r requirements.txt
 
 # 3. Launch the pipeline.
-poetry run python main.py
+portfolio-opt --tickers AAPL MSFT NVDA --start-date 2020-01-01 --end-date 2024-12-31 --rebalance YE
 ```
 
 **Tinker Time**  
