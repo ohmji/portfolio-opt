@@ -217,6 +217,14 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../portfolio-opt/">
+<span class="md-ellipsis">
+    Portfolio-Opt
+    
+  </span>
+</a>
+</li>
 </ul>
 </nav>
 </div>
@@ -333,7 +341,7 @@
 <ul>
 <li><strong>Goal:</strong> Grow money over the long run while minimizing wild swings.  </li>
 <li><strong>Universe:</strong> Ten large‑cap US stocks (Apple, Microsoft, Amazon, etc.).  </li>
-<li><strong>Tactic:</strong> Once a year, find the weights that gave the best risk‑adjusted return (<em>Sharpe Ratio</em>) over the past 12 months, then hold those weights for the next year.  </li>
+<li><strong>Tactic:</strong> Every 1Y / 6M / 3M, find the weights that gave the best risk‑adjusted return (<em>Sharpe Ratio</em>) over the past period, then hold those weights for the next.  </li>
 <li><strong>Benchmark:</strong> <em>SPY</em>, the go‑to yard‑stick for US equities.</li>
 </ul>
 <hr/>
@@ -467,7 +475,7 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/your_
 poetry<span class="w"> </span>install<span class="w">  </span><span class="c1"># or: pip install -r requirements.txt</span>
 
 <span class="c1"># 3. Launch the pipeline.</span>
-poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>main.py
+portfolio-opt<span class="w"> </span>--tickers<span class="w"> </span>AAPL<span class="w"> </span>MSFT<span class="w"> </span>NVDA<span class="w"> </span>--start-date<span class="w"> </span><span class="m">2020</span>-01-01<span class="w"> </span>--end-date<span class="w"> </span><span class="m">2024</span>-12-31<span class="w"> </span>--rebalance<span class="w"> </span>YE
 </code></pre></div>
 <p><strong>Tinker Time</strong><br/>
 Open <code>main.py</code> to:</p>
