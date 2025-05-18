@@ -5,9 +5,8 @@
 ---
 
 <p align="center">
-  <img src="../assets/efficient_frontier.png" alt="Efficient Frontier" width="600"/>
+  <img src="../assets/efficient-frontier-description.png" alt="Efficient Frontier" width="600"/>
 </p>
-
 ## 📌 1 What on earth is an efficient frontier?
 
 Picture every possible portfolio of your chosen assets on a two‑axis chart:
