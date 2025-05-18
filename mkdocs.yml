@@ -4,6 +4,7 @@ docs_dir: docs
 nav:
   - Intro: index.md
   - Walk‑Through: walk-through.md
+  - Efficient-Frontier: efficient-frontier.md
   - Portfolio-Opt: portfolio-opt.md
   - Results: results.md
   - References: references.md
