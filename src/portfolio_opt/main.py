@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import cvxpy as cp
 import pandas as pd
 from pathlib import Path
-from portfolio_backtester import PortfolioBacktester
-from portfolio_plotter import PortfolioPlotter
+from portfolio_opt.portfolio_backtester import PortfolioBacktester
+from portfolio_opt.portfolio_plotter import PortfolioPlotter
 
 
 def construct_efficient_frontier(returns, tickers, num_points=100):
@@ -53,7 +53,7 @@ def format_summary_df(df, percent_cols):
             formatted_df[col] = formatted_df[col].apply(lambda x: f"{x:.4f}")
     return formatted_df
 
-if __name__ == "__main__":
+def main():
     # Load historical price data for selected tickers
     
     # Ensure output directories exist
@@ -183,3 +183,6 @@ if __name__ == "__main__":
         weights_df.to_csv("exports/annual_weights.csv")
         print("\n📊 Annual Portfolio Weights:")
         print(weights_df)
+
+if __name__ == "__main__":
+    main()
