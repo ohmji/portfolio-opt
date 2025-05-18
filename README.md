@@ -1,4 +1,6 @@
+
 # 📈 Portfolio Optimization & Backtesting
+[![PyPI version](https://badge.fury.io/py/portfolio-opt.svg)](https://pypi.org/project/portfolio-opt/)
 
 A lightweight and modular framework for backtesting quantitative portfolio strategies using **configurable rebalancing (annual / 6‑month / quarterly)**, **efficient frontier analysis**, and **Sharpe ratio optimization**.
 
