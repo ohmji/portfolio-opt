@@ -8,6 +8,14 @@ A lightweight and modular framework for backtesting quantitative portfolio strat
 
 Explore the full documentation here: 📘 [Read the Docs](https://ohmji.github.io/portfolio-optimization)
 
+## 📦 Installation
+
+```bash
+pip install portfolio-opt
+# or, with Poetry
+poetry add portfolio-opt
+```
+
 ---
 
 ## 🚀 Features
@@ -25,11 +33,14 @@ Explore the full documentation here: 📘 [Read the Docs](https://ohmji.github.i
 
 ```
 portfolio-opt/
-├── main.py                    # Main orchestration script
-├── portfolio_backtester.py    # Custom backtester with performance metrics
-├── portfolio_plotter.py       # Visualization tools using matplotlib
-├── reports/                   # Auto-generated plots (.png)
-└── exports/                   # Auto-generated summaries (.csv)
+├── src/
+│   └── portfolio_opt/
+│       ├── __init__.py
+│       ├── main.py               # CLI + library entry points
+│       ├── portfolio_backtester.py
+│       └── portfolio_plotter.py
+├── reports/                      # Auto‑generated plots (.png)
+└── exports/                      # Auto‑generated summaries (.csv)
 ```
 
 | Module                     | Description                                         |
@@ -56,11 +67,19 @@ portfolio-opt/
 ## ⚡ Quick Start
 
 ```bash
-# Install dependencies
-poetry install
+# Run via the CLI (recommended)
+portfolio-opt --tickers AAPL MSFT NVDA --start-date 2020-01-01 --end-date 2024-12-31
 
-# Run the full analysis
-poetry run python main.py
+# Or call programmatically
+python - << 'PY'
+from portfolio_opt.main import run_annual_rebalanced_backtest
+
+run_annual_rebalanced_backtest(
+    tickers=["AAPL", "MSFT", "NVDA"],
+    start_date="2020-01-01",
+    end_date="2024-12-31",
+)
+PY
 ```
 
 ### Output Files:
@@ -75,10 +94,10 @@ poetry run python main.py
 
 | Feature | How to change |
 |--------|----------------|
-| Tickers | Modify `tickers` list in `main.py` |
-| Risk-Free Rate | Change `rf = 0.03` in `main.py` |
-| Portfolio Samples | Adjust `n_ports = 10_000` |
-| Date Range | Update `start=` and `end=` in data loader |
+| Tickers | `--tickers` CLI flag **or** pass `tickers=[...]` to `run_annual_rebalanced_backtest` |
+| Risk‑Free Rate | `--rf` CLI flag **or** `risk_free_rate=` param |
+| Portfolio Samples | `--num-ports` CLI flag |
+| Date Range | `--start-date` / `--end-date` flags or function params |
 
 ---
 
